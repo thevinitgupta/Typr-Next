@@ -28,6 +28,7 @@ const Profile = () => {
     const checkUser = async () => {
         const { status, message, data } = await getCurrentUser();
             if (status === 200) {
+                console.log(data)
                 setAuthenticated(true);
                 return;
             }
@@ -140,7 +141,7 @@ const Profile = () => {
         >
             <header className={`w-full h-1/6 mb-4 flex justify-center items-center gap-16 text-white/70`}>
                 <div className={`h-full text-lg font-light cursor-pointer hover:text-white/90 hover:scale-110 transition-all ${mont.className}`} onClick={() => {
-                    window.location = "/practice"
+                    window.location = "/profile"
                 }} >Profile</div>
                 <div className={`h-full text-lg font-light cursor-pointer hover:text-white/90 hover:scale-110 transition-all ${mont.className}`} onClick={() => {
                     window.location = "/"
