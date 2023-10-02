@@ -125,6 +125,7 @@ const Profile = () => {
 
 
     useEffect(() => {
+        checkUser();
         fetchData();
         setTimeout(() => {
             setLoading(false);
