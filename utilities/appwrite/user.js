@@ -94,14 +94,49 @@ export const getCurrentUser = async () => {
     try {
         const client = getAppwriteClient();
         const account = new Account(client);
-        const {name, email} = await account.get(); 
+        const {name, email, $id} = await account.get(); 
         return {
-            status : 201,
-            message : "Session Created",
+            status : 200,
+            message : "Account Fetched",
             data : {
                 name,
-                email
+                email,
+                userId : $id
             },
+            error : null
+        };
+
+    } catch (error) {
+        // console.log(error);
+        if(error.name && error.name==='AppwriteException'){
+            return {
+                status : error.code,
+                message : error.response.message,
+                data : null,
+                error
+            }
+        }
+        return {
+            status : 500,
+            message : "Error Getting Account",
+            data : null,
+            error
+        };
+    }
+}
+
+export const deleteUserSession = async () => {
+    try {
+        const client = getAppwriteClient();
+        const account = new Account(client);
+        const session = await account.getSession('current') 
+        const sessionId = session?.$id;
+        const response = await account.deleteSession(sessionId);
+        console.log(response)
+        return {
+            status : 200,
+            message : "Logged Out",
+            data : null,
             error : null
         };
 
@@ -117,7 +152,7 @@ export const getCurrentUser = async () => {
         }
         return {
             status : 500,
-            message : "Error Getting Account",
+            message : "Error Logging Out",
             data : null,
             error
         };

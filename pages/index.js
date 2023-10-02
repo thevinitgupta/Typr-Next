@@ -1,11 +1,29 @@
 import Image from 'next/image'
 import { Inter, Josefin_Sans, Montserrat } from 'next/font/google'
+import { getCurrentUser } from '@/utilities/appwrite/user';
+import { useEffect, useState } from 'react';
+
 
 const inter = Inter({ subsets: ['latin'] })
 const mont = Montserrat({subsets : ['latin']})
 const jose = Josefin_Sans({subsets : ['latin']})
 
 export default function Home() {
+  const [authenticated, setAuthenticated] = useState(false)
+  const checkUser = async () => {
+    const { status, message, data } = await getCurrentUser();
+        if (status === 200) {
+            setAuthenticated(true);
+            return;
+        }
+        else {
+            setAuthenticated(false)
+        }
+  }
+
+  useEffect(()=> {
+    checkUser();
+  })
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between px-16 py-10 ${inter.className}`}
@@ -15,8 +33,8 @@ export default function Home() {
           window.location = "/practice"
         }} >Practice</div>
         <div className={`w-1/12 h-full text-lg font-light cursor-pointer hover:text-white/90 hover:scale-110 transition-all ${mont.className}`} onClick={()=> {
-          window.location = "/auth"
-        }} >Profile</div>
+          window.location = authenticated ? "/profile" : "/auth"
+        }} >{authenticated ? "Profile" : "Login"}</div>
         <div className={`w-1/12 h-full text-lg font-light cursor-pointer hover:text-white/90 hover:scale-110 transition-all ${mont.className}`} onClick={()=> {
           window.open("https://github.com/thevinitgupta/", "_blank");
         }} >Code</div>

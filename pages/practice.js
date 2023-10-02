@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Inter, Josefin_Sans, Montserrat, Space_Mono } from 'next/font/google'
 import { fetchTyprData } from '@/utilities/textData/text';
 import { getRandomEndpoint } from '@/utilities/textData/random';
+import { getScore } from '@/utilities/textData/score';
+import { createSubmission, getUserSubmissions } from '@/utilities/appwrite/submissions';
 
 const inter = Inter({ subsets: ['latin'] })
 const mont = Montserrat({ subsets: ['latin'] })
@@ -10,14 +12,29 @@ const jose = Josefin_Sans({ subsets: ['latin'] });
 const mono = Space_Mono({ subsets: ["latin"], weight: ['400'] })
 
 const Profile = () => {
+    const [authenticated, setAuthenticated] = useState(false)
     const [loading, setLoading] = useState(true);
     const [original, setOriginal] = useState("");
     const [typing, setTyping] = useState("");
     const [typed, setTyped] = useState("");
     const [isError, setIsError] = useState(false);
     const [error, setError] = useState("");
-
+    const [errorsCount, setErrorsCount] = useState(null);
+    const [score, setScore] = useState(null);
+    const [timer, setTimer] = useState(0);
+    let timerId = null;
     const inputRef = useRef();
+
+    const checkUser = async () => {
+        const { status, message, data } = await getCurrentUser();
+            if (status === 200) {
+                setAuthenticated(true);
+                return;
+            }
+            else {
+                setAuthenticated(false)
+            }
+      }
 
     const fetchLocal = () => {
         let str = "";
@@ -35,7 +52,9 @@ const Profile = () => {
     const fetchData = async () => {
         const endpoint = await getRandomEndpoint();
         console.log(endpoint)
-        const { status, message, data, error } = await fetchLocal(); // getRandomEndpoint();
+        const { status, message, data, error } = await fetchLocal(); 
+        // fetchLocal(); 
+        // getRandomEndpoint();
         // fetchTyprData({...endpoint});
         if (status === 200) {
             setOriginal(data);
@@ -47,15 +66,61 @@ const Profile = () => {
         }
     }
 
+    const disableSpacebarAsButton = (event) => {
+        const spaceKeyCode = 32;
+
+        if (event.keyCode === spaceKeyCode && document.activeElement.tagName === 'BUTTON') {
+            event.preventDefault();
+        }
+    };
+
+    const submitResult = async () => {
+        const { subScore, errors } = getScore(original, typed, timer);
+        setErrorsCount(errors);
+        setScore(subScore);
+        const submission = {
+            score : subScore,
+            errorsCount : errors,
+            total : original.length
+        }
+        if(authenticated) 
+        {
+            const {status, message, data, error} = await createSubmission(submission);
+
+        if(status===201){
+            setTimer(0);
+            setScore(null);
+            setErrorsCount(null);
+            getUserSubmissions();
+        }
+        else {
+            alert(message);
+        }
+        }
+        else {
+            alert("Create account to submit!!")
+        }
+    }
+
+    const startTimer = () => {
+        timerId = setInterval(() => {
+            setTimer((prevValue) => prevValue + 1)
+        }, 1000)
+    }
+
     const handleButton = (e) => {
-        if(!typing) {
+        if (!typing) {
             setTyping(true);
+            inputRef?.current.focus()
+            startTimer();
         }
         else {
             setTyping(false);
-            window.location = "/profile";
+            submitResult();
+            clearInterval(timerId);
+            // window.location = "/profile";
         }
-    } 
+    }
 
 
     useEffect(() => {
@@ -63,6 +128,11 @@ const Profile = () => {
         setTimeout(() => {
             setLoading(false);
         }, [1500])
+        document.addEventListener('keydown', disableSpacebarAsButton);
+
+        return () => {
+            document.removeEventListener('keydown', disableSpacebarAsButton);
+        };
     }, []);
     return (
         <main
@@ -71,7 +141,7 @@ const Profile = () => {
             <header className={`w-full h-1/6 mb-4 flex justify-center items-center gap-16 text-white/70`}>
                 <div className={`h-full text-lg font-light cursor-pointer hover:text-white/90 hover:scale-110 transition-all ${mont.className}`} onClick={() => {
                     window.location = "/practice"
-                }} >Practice</div>
+                }} >Profile</div>
                 <div className={`h-full text-lg font-light cursor-pointer hover:text-white/90 hover:scale-110 transition-all ${mont.className}`} onClick={() => {
                     window.location = "/"
                 }} >Home</div>
@@ -80,6 +150,12 @@ const Profile = () => {
                 }}  >Code</div>
             </header>
             <section className={`flex-1 w-full flex flex-col justify-center gap-4`}>
+            <input ref={inputRef} onFocus={()=> {
+                                        console.log("input focused")
+                                    }} value={typed} onChange={(e) => {
+                                        console.log("Input Changed")
+                                        setTyped(e.target.value);
+                                    }} className='w-0 h-0 absolute' />
                 {
                     loading ?
                         <h1 className={`text-5xl sm:text-4xl font-bold text-center mt-4 text-transparent bg-clip-text bg-gradient-to-br from-slate-700 to-zinc-300   leading-relaxed ${jose.className}`}>Start Typing when data loads</h1>
@@ -99,13 +175,24 @@ const Profile = () => {
                                         typing ? "Submit" : "Start"
                                     }
                                 </button>
-                                {
-                                    typing && 
-                                    <input ref={inputRef} value={typed} onChange={(e)=> {
-                                        setTyped(e.target.value);
-                                    }}  className='hidden' />
-                                }
                             </>
+                }
+                {
+                    (score!==null && errorsCount!=null) &&
+                    <div className={`w-full text-xl my-10 flex justify-center items-center py-2 gap-3`}>
+                        <div className={`flex-[0.4] text-center ${mono.className}`}>
+                            <span className={`text-green-500 mx-2 ${jose.className}`}>
+                                Score :
+                            </span>
+                            {score}
+                        </div>
+                        <div className={`flex-[0.4] text-center ${mono.className}`}>
+                            <span className={`text-red-500 mx-2 ${jose.className}`}>
+                                Errors :
+                            </span>
+                            {errorsCount}
+                        </div>
+                    </div>
                 }
             </section>
         </main>
