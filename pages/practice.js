@@ -5,6 +5,7 @@ import { fetchTyprData } from '@/utilities/textData/text';
 import { getRandomEndpoint } from '@/utilities/textData/random';
 import { getScore } from '@/utilities/textData/score';
 import { createSubmission, getUserSubmissions } from '@/utilities/appwrite/submissions';
+import TyprDisplay from '@/components/typrDisplay';
 
 const inter = Inter({ subsets: ['latin'] })
 const mont = Montserrat({ subsets: ['latin'] })
@@ -89,10 +90,11 @@ const Profile = () => {
             const {status, message, data, error} = await createSubmission(submission);
 
         if(status===201){
-            setTimer(0);
-            setScore(null);
-            setErrorsCount(null);
-            getUserSubmissions();
+            // setTimer(0);
+            // setScore(null);
+            // setErrorsCount(null);
+            // getUserSubmissions();
+            alert("Submitted Successfully")
         }
         else {
             alert(message);
@@ -157,6 +159,7 @@ const Profile = () => {
                                     }} value={typed} onChange={(e) => {
                                         console.log("Input Changed")
                                         setTyped(e.target.value);
+                                        if(typed.length>=original.length) handleButton();
                                     }} className='w-0 h-0 absolute' />
                 {
                     loading ?
@@ -170,7 +173,7 @@ const Profile = () => {
                             <>
                                 <h1 className={`text-3xl sm:text-4xl font-bold text-center mt-4 text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-emerald-400 leading-relaxed ${jose.className}`}>Let's start typing</h1>
                                 <div className={`w-full max-w-[840px] text-2xl mx-auto font-normal tracking-wide text-center mt-4 text-transparent bg-clip-text bg-gradient-to-br from-slate-400 to-zinc-200  leading-relaxed  ${mono.className}`}>
-                                    {original}
+                                    <TyprDisplay text={original} typedLength={typed.length}/>
                                 </div>
                                 <button type='button' onClick={handleButton} className={`w-full max-w-[320px] mx-auto mt-10 bg-gradient-to-tl from-slate-700 to-zinc-300 text-black rounded-lg px-10 py-3 text-xl ${jose.className}`}>
                                     {
