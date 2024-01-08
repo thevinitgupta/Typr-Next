@@ -21,3 +21,6 @@ I was bored to the usaual practice websites that made you practice typing with s
 This was the main idea behind Typr and eventually Typr Next, that `let's you see your progress over time`.
 
 ## Screenshots
+<img width="1083" alt="Screenshot 2024-01-08 at 10 09 18 AM" src="https://github.com/thevinitgupta/Typr-Next/assets/65801700/88ea60d9-613e-4f1b-be24-a530ed1c47d2">
+<img width="1111" alt="Screenshot 2024-01-08 at 10 21 45 AM" src="https://github.com/thevinitgupta/Typr-Next/assets/65801700/9d45ee73-7922-483c-ad10-ae29128f7c3f">
+<img width="878" alt="Screenshot 2024-01-08 at 10 22 01 AM" src="https://github.com/thevinitgupta/Typr-Next/assets/65801700/dd6b327e-a3a0-4c01-87e3-9c8c13b65099">
