@@ -1,40 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Typr Next ⌨️
 
-## Getting Started
+Typr is the next generation typing practice website. 
+How? Well, it's simple and works on real world text.
 
-First, run the development server:
+## Tech Stack
+- `NextJS` for building the actual Application
+- `Appwrite` for authentication and data
+- `TailwindCSS` for the look and feel
+- `Rechart` for visualizing your progress
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Why Typr?
+It is the upgrade of my first ever project - [Typr](https://thevinitgupta.github.io/Typr/). 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+But why did I build Typr? 
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+I was bored to the usaual practice websites that made you practice typing with some random characters.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+> _The real speed comes from the ability to type fast when it comes to the real world and not some randomized characters_
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+This was the main idea behind Typr and eventually Typr Next, that `let's you see your progress over time`.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Screenshots
