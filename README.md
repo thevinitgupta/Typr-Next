@@ -1,4 +1,4 @@
-# Typr Next e⌨️
+# Typr Next ⌨️
 
 Typr is the next generation typing practice website. 
 How? Well, it's simple and works on real world text.
