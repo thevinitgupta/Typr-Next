@@ -22,7 +22,7 @@ const dataEndpoints = [
         url : "https://random-word-api.herokuapp.com/word?number=25&length=5",
         query : "",
         concat : false,
-        key : "words"
+        key : "quote"
     },
 ];
 

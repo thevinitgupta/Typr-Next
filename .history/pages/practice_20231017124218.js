@@ -28,7 +28,6 @@ const Profile = () => {
 
     const checkUser = async () => {
         const { status, message, data } = await getCurrentUser();
-        console.log("GET CURRENT USER : ",message);
             if (status === 200) {
                 console.log(data)
                 setAuthenticated(true);
@@ -55,8 +54,7 @@ const Profile = () => {
     const fetchData = async () => {
         const endpoint = await getRandomEndpoint();
         console.log(endpoint)
-        const { status, message, data, error } = await fetchTyprData({...endpoint}); 
-        console.log("");
+        const { status, message, data, error } = await fetchLocal(); 
         // fetchLocal(); 
         // getRandomEndpoint();
         // fetchTyprData({...endpoint});

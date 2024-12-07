@@ -55,11 +55,11 @@ const Profile = () => {
     const fetchData = async () => {
         const endpoint = await getRandomEndpoint();
         console.log(endpoint)
-        const { status, message, data, error } = await fetchTyprData({...endpoint}); 
+        const { status, message, data, error } = await fetchLocal(); 
         console.log("");
         // fetchLocal(); 
-        // getRandomEndpoint();
-        // fetchTyprData({...endpoint});
+        getRandomEndpoint();
+        fetchTyprData({...endpoint});
         if (status === 200) {
             setOriginal(data);
             return;

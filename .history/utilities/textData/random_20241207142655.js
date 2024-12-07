@@ -19,10 +19,10 @@ const dataEndpoints = [
         key : "quote"
     },
     {
-        url : "https://random-word-api.herokuapp.com/word?number=25&length=5",
+        url : "https://api.api-ninjas.com/v1/quotes",
         query : "",
         concat : false,
-        key : "words"
+        key : "quote"
     },
 ];
 

@@ -7,8 +7,8 @@ export const fetchTyprData = async ({url, query, key, concat})=> {
         const headers = {
             'X-Api-Key': DATA_API_KEY
           };
-        const response = await axios.get(`${url}`,key!=="words" && {
-            headers
+        const response = await axios.get(`${url}`,{
+            headers: key==="words" ? "" : headers
         });
         const {data, status, message} = response;
         if(status!==200){
@@ -50,8 +50,8 @@ const merge = (dataArray, key)=>{
 const mergeWords = (dataArray, key)=>{
     let result = "";
     dataArray.forEach((obj)=> {
-        const str = obj+" ";
-        result += str;
+        
+        result += str+"";
     })
     return result.trim();
 }
